@@ -46,7 +46,7 @@ const useLatestData = () => {
 				setSlicemasters(res.data.StoreSettings.slicemasters);
 			})
 			.catch((err) => {
-				throw new Error(err.message);
+				console.log(err);
 			});
 	}, []);
 	return {
