@@ -12,19 +12,19 @@ const deets = gql`
             }
         }
     }
-`
+`;
 const useLatestData = () => {
-    const [hotSlices, setHotSlices] = useState();
-    const [slicemasters, setSlicemasters] = useState();
-    //Side effect to fetch data from graphql endpoint
-    useEffect(() => {
-        fetch(process.env.GATSBY_GRAPHQL_ENDPOINT, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                query: gql`
+	const [hotSlices, setHotSlices] = useState();
+	const [slicemasters, setSlicemasters] = useState();
+	//Side effect to fetch data from graphql endpoint
+	useEffect(() => {
+		fetch(process.env.GATSBY_GRAPHQL_ENDPOINT, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				query: gql`
                     query {
                         StoreSettings(id: "downtown") {
                             name
@@ -36,23 +36,23 @@ const useLatestData = () => {
                             }
                         }
                     }
-                `
-            })
-        })
-            .then(res => res.json())
-            .then(res => {
-                //TODO: check for errors
-                setHotSlices(res.data.StoreSettings.hotSlices);
-                setSlicemasters(res.data.StoreSettings.slicemasters);
-            })
-            .catch(err => {
-                console.log(`Aww shoot`);
-            })
-    }, []);
-    return {
-        hotSlices,
-        slicemasters
-    }
-}
+                `,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				//TODO: check for errors
+				setHotSlices(res.data.StoreSettings.hotSlices);
+				setSlicemasters(res.data.StoreSettings.slicemasters);
+			})
+			.catch((err) => {
+				throw new Error(err.message);
+			});
+	}, []);
+	return {
+		hotSlices,
+		slicemasters,
+	};
+};
 
 export default useLatestData;
